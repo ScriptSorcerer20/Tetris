@@ -10,7 +10,7 @@ This isn't just about coding; it's about building something I love from the grou
 **May my Journey begin**
 
 
-## Struktur
+## Structure
 
 Tetris/  
 │  
