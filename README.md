@@ -11,12 +11,12 @@ This isn't just about coding; it's about building something I love from the grou
 
 ## Struktur
 
-Tetris
-│
-├── tetris.py            # Hauptskript für das Spiel
-├── tetrominos.py        # Tetromino-Klassen und Logik
-├── game_manager.py      # Spiellogik (Grid, Zeilen löschen, Spielstatus)
-├── settings.py          # Einstellungen (Farben, Größe, Geschwindigkeit)
-├── assets/              # Ordner für Assets wie Bilder, Sounds (falls verwendet)
-│   └── sounds/
-└── README.md            # Projektbeschreibung (optional)
+Tetris/  
+│  
+├── tetris.py            # Hauptskript für das Spiel  
+├── tetrominos.py        # Tetromino-Klassen und Logik  
+├── game_manager.py      # Spiellogik (Grid, Zeilen löschen, Spielstatus)  
+├── settings.py          # Einstellungen (Farben, Größe, Geschwindigkeit)  
+├── assets/              # Ordner für Assets wie Bilder, Sounds (falls verwendet)  
+│   └── sounds/  
+└── README.md            # Projektbeschreibung (optional)  
