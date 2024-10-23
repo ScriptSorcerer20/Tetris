@@ -11,7 +11,7 @@ This isn't just about coding; it's about building something I love from the grou
 
 ## Struktur
 
-Tetris/
+Tetris
 │
 ├── tetris.py            # Hauptskript für das Spiel
 ├── tetrominos.py        # Tetromino-Klassen und Logik
