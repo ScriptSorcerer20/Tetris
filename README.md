@@ -9,6 +9,8 @@ The idea hit me like a falling tetromino, and I realized immediately it was the 
 This isn't just about coding; it's about building something I love from the ground up. And honestly? Writing this intro was almost as fun as watching the pieces fall into place!
 **May my Journey begin**
 
+***Made by ScriptSourcerer20 (and some help from the Internet)***
+
 
 ## Structure
 
