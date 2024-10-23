@@ -13,7 +13,7 @@ This isn't just about coding; it's about building something I love from the grou
 
 Tetris/  
 │  
-├── tetris.py            # Hauptskript für das Spiel  
+├── main.py            # Hauptskript für das Spiel  
 ├── tetrominos.py        # Tetromino-Klassen und Logik  
 ├── game_manager.py      # Spiellogik (Grid, Zeilen löschen, Spielstatus)  
 ├── settings.py          # Einstellungen (Farben, Größe, Geschwindigkeit)  
