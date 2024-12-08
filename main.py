@@ -14,9 +14,11 @@ def main():
     game_grid = Grid(rows, cols, cell_size)
     tetromino = Tetrominos(cols, cell_size)
 
-    # Timer for controlling the falling speed
     fall_timer = 0
     fall_interval = 1000 // falling_speed  # Falling interval in milliseconds
+
+    move_timer = 0
+    move_interval = 100
 
     while True:
         screen.fill((0, 153, 255))  # Background color
@@ -26,16 +28,38 @@ def main():
             if event.type == pygame.QUIT:
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RIGHT:
+                if event.key == pygame.K_UP:
+                    rotated_shape = [list(row) for row in zip(*tetromino.shape[::-1])]
+                    if not game_grid.check_collision(rotated_shape, tetromino.x, tetromino.y):
+                        tetromino.shape = rotated_shape  # Apply rotation
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_RIGHT]:
+            if current_time - move_timer > move_interval:  # Ensure delay between movements
+                if not game_grid.check_collision(tetromino.shape, tetromino.x + 1, tetromino.y):
                     tetromino.move(1, 0)  # Move right
-                elif event.key == pygame.K_LEFT:
+                move_timer = current_time  # Reset timer
+        elif keys[pygame.K_LEFT]:
+            if current_time - move_timer > move_interval:  # Ensure delay between movements
+                if not game_grid.check_collision(tetromino.shape, tetromino.x - 1, tetromino.y):
                     tetromino.move(-1, 0)  # Move left
-                elif event.key == pygame.K_UP:
-                    tetromino.rotate()  # Rotate shape
+                move_timer = current_time  # Reset timer
 
         # Handle automatic falling based on timer
         if current_time - fall_timer > fall_interval:
-            tetromino.move(0, 1)
+            if not game_grid.check_collision(tetromino.shape, tetromino.x, tetromino.y + 1):
+                tetromino.move(0, 1)  # Move down
+            else:
+                # Collision detected, lock the tetromino in place
+                game_grid.add_tetromino(tetromino)
+                game_grid.check_full_row()
+                tetromino = Tetrominos(cols, cell_size)  # Spawn a new tetromino
+
+                # Check if game is over
+                if game_grid.check_collision(tetromino.shape, tetromino.x, tetromino.y):
+                    print("Game Over")
+                    sys.exit()
+
             fall_timer = current_time
 
         # Draw the grid and tetromino

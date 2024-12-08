@@ -1,6 +1,17 @@
 import random
 import pygame
 
+def set_color():
+    yellow = (255, 255, 0)
+    violet = (204, 0, 204)
+    green = (0, 153, 0)
+    orange = (255, 153, 0)
+    light_blue = (0, 255, 255)
+    red = (255, 0, 0)
+    blue = (0, 0, 255)
+    colors = [yellow, violet, green, orange, light_blue, red, blue]
+    return colors
+
 
 class Tetrominos:
     SHAPES = [
@@ -15,10 +26,13 @@ class Tetrominos:
 
     def __init__(self, cols, cell_size):
         self.cell_size = cell_size
-        self.shape = random.choice(self.SHAPES)  # Randomly pick a shape
-        self.color = (random.randint(50, 255), random.randint(50, 255), random.randint(50, 255))  # Random color
+        self.shape_number = random.choice([1, 2, 3, 4, 5, 6, 7])  # Randomly pick a shape
+        self.shape = self.SHAPES[self.shape_number - 1]
+        self.colors = set_color()
         self.x = cols // 2 - len(self.shape[0]) // 2  # Center horizontally
         self.y = 0  # Start at the top
+
+
 
     def draw(self, screen):
         """Draw the tetromino on the screen."""
@@ -29,7 +43,7 @@ class Tetrominos:
                     y = (self.y + row_idx) * self.cell_size + 1
                     pygame.draw.rect(
                         screen,
-                        self.color,
+                        self.colors[self.shape_number - 1],
                         pygame.Rect(x, y, self.cell_size - 2, self.cell_size - 2)
                     )
 
