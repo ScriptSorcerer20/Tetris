@@ -55,3 +55,8 @@ class Tetrominos:
         """Move the tetromino."""
         self.x += dx
         self.y += dy
+
+    def instant_drop(self, grid):
+        """Move the tetromino to the lowest possible position."""
+        while not grid.check_collision(self.shape, self.x, self.y + 1):
+            self.y += 1

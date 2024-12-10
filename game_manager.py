@@ -1,4 +1,15 @@
 import pygame
+import settings
+
+
+#game states
+def draw_text(surface, text, size, x, y, color):
+    """Utility function to render text onto a surface."""
+    font = pygame.font.Font(None, size)  # Use default font
+    text_surface = font.render(text, True, color)
+    text_rect = text_surface.get_rect(center=(x, y))
+    surface.blit(text_surface, text_rect)
+
 
 class Grid():
     def __init__(self, rows, cols, cell_size):
@@ -51,3 +62,5 @@ class Grid():
         new_grid = [row for row in self.grid if not all(cell == 1 for cell in row)]
         cleared_rows = len(self.grid) - len(new_grid)
         self.grid = [[0] * self.cols for _ in range(cleared_rows)] + new_grid
+
+        settings.game_score += 100 * cleared_rows
