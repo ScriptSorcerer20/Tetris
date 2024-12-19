@@ -60,3 +60,24 @@ class Tetrominos:
         """Move the tetromino to the lowest possible position."""
         while not grid.check_collision(self.shape, self.x, self.y + 1):
             self.y += 1
+
+    def draw_next_tetromino(self, surface):
+        """
+        Draw the next tetromino in the preview window.
+        """
+        surface.fill((0, 0, 0))
+
+        cell_size = 30  # Smaller cell size for the preview
+        x_offset = (surface.get_width() - len(self.shape[0]) * cell_size) // 2
+        y_offset = (surface.get_height() - len(self.shape) * cell_size) // 2
+
+        for row_idx, row in enumerate(self.shape):
+            for col_idx, cell in enumerate(row):
+                if cell:
+                    cell_rect = pygame.Rect(
+                        x_offset + col_idx * cell_size,
+                        y_offset + row_idx * cell_size,
+                        cell_size,
+                        cell_size
+                    )
+                    pygame.draw.rect(surface, self.colors[self.shape_number - 1], cell_rect)  # Red color for tetromino

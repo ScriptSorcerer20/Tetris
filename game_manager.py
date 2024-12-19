@@ -1,6 +1,19 @@
 import pygame
 import settings
 
+def get_fall_interval(score):
+    """
+    Calculate the fall interval based on the current score.
+    """
+    base_interval = 1000  # Base interval in milliseconds
+    decrease_per_1000_points = 50  # Decrease in ms per 1000 points
+    min_interval = 100  # Minimum interval in milliseconds
+
+    # Calculate the fall interval
+    interval = base_interval - (score // 400) * decrease_per_1000_points
+
+    # Ensure the interval doesn't go below the minimum
+    return max(interval, min_interval)
 
 #game states
 def draw_text(surface, text, size, x, y, color):
@@ -9,6 +22,7 @@ def draw_text(surface, text, size, x, y, color):
     text_surface = font.render(text, True, color)
     text_rect = text_surface.get_rect(center=(x, y))
     surface.blit(text_surface, text_rect)
+
 
 
 class Grid():
@@ -63,4 +77,7 @@ class Grid():
         cleared_rows = len(self.grid) - len(new_grid)
         self.grid = [[0] * self.cols for _ in range(cleared_rows)] + new_grid
 
-        settings.game_score += 100 * cleared_rows
+        if cleared_rows >= 4:
+            settings.game_score += 100 * cleared_rows + 100
+        else:
+            settings.game_score += 100 * cleared_rows
