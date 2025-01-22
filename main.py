@@ -15,9 +15,9 @@ def setup():
     pygame.display.set_caption("Tetris")
     icon_img = pygame.image.load('assets/icon.png')
     pygame.display.set_icon(icon_img)
-    state_screen(screen, game_state)
+    state_screen(game_state)
 
-def state_screen(screen, game_state):
+def state_screen(game_state):
     """Display the start screen."""
     width = 300
     screen = pygame.display.set_mode((width, height))
@@ -51,7 +51,7 @@ def state_screen(screen, game_state):
                 return  # Exit the start screen
 
 def pause_menu(screen):
-    """Render the pause menu."""
+    """Render the pause menu"""
     screen.fill((0, 0, 0))  # Black background
     draw_text(screen, "Game Paused", 50, 450 // 2, HEIGHT // 2 - 50, (255, 255, 255))
     draw_text(screen, "Press ESC to Resume", 30, 450 // 2, HEIGHT // 2 + 10, (200, 200, 200))
@@ -150,7 +150,7 @@ def main():
                     # Check if game is over
                     if game_grid.check_collision(current_tetromino.shape, current_tetromino.x, current_tetromino.y):
                         game_state = False
-                        state_screen(screen, game_state)
+                        state_screen(game_state)
 
                 fall_timer = current_time
 
