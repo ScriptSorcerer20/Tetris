@@ -51,7 +51,7 @@ def state_screen(game_state):
                 return  # Exit the start screen
 
 def pause_menu(screen):
-    """Render the pause menu"""
+    """Render the pause menu."""
     screen.fill((0, 0, 0))  # Black background
     draw_text(screen, "Game Paused", 50, 450 // 2, HEIGHT // 2 - 50, (255, 255, 255))
     draw_text(screen, "Press ESC to Resume", 30, 450 // 2, HEIGHT // 2 + 10, (200, 200, 200))
