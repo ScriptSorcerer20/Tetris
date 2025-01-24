@@ -78,6 +78,6 @@ class Grid():
         self.grid = [[0] * self.cols for _ in range(cleared_rows)] + new_grid
 
         if cleared_rows >= 4:
-            settings.game_score += 100 * cleared_rows + 100
+            settings.game_score += 100 * cleared_rows * 2
         else:
             settings.game_score += 100 * cleared_rows
