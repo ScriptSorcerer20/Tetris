@@ -1,5 +1,6 @@
 import pygame as pg
 from game.settings import *
+import game.settings as setting
 from game.util import draw_text
 import sys
 
@@ -72,11 +73,11 @@ class GameMenu:
 
         self.screen.fill((0, 0, 0))
 
-        if gamestate:
+        if setting.gamestate:
             draw_text(self.screen, "Game Paused", 50, width // 2, HEIGHT // 2 - 50, (255, 255, 255))
             draw_text(self.screen, "Press ESC to Resume", 30, width // 2, HEIGHT // 2 + 10, (200, 200, 200))
         else:
-            draw_text(self.screen, "Game Over", 50, WIDTH // 2, HEIGHT // 2 - 50, (255, 0, 0))
-            draw_text(self.screen, "Press Enter to Restart", 30, WIDTH // 2, HEIGHT // 2 + 50, (200, 200, 200))
+            draw_text(self.screen, "Game Over", 50, width // 2, HEIGHT // 2 - 50, (255, 0, 0))
+            draw_text(self.screen, "Press Enter to Restart", 30, width // 2, HEIGHT // 2 + 50, (200, 200, 200))
 
         pg.display.update()

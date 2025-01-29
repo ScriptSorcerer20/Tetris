@@ -37,8 +37,8 @@ This isn't just about coding; it's about building something I love from the grou
 ### **Step 2: Additional Game Features**
 1. [x] **Next Tetromino Preview**:
    - [x] Show the upcoming Tetromino in a small box.
-2. [ ] **Ghost Piece**:
-   - [ ] Display a transparent outline where the current Tetromino will land.
+2. [x] **Ghost Piece**:
+   - [x] Display a transparent outline where the current Tetromino will land.
 3. [x] **Pause and Resume**:
    - [x] Allow the game to pause (e.g., with the Escape key) and resume.
 4. [ ] **Basic Leaderboard**:

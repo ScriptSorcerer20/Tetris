@@ -30,7 +30,7 @@ class Tetrominos:
         self.shape = self.SHAPES[self.shape_number - 1]
         self.colors = set_color()
         self.x = cols // 2 - len(self.shape[0]) // 2  # Center horizontally
-        self.y = 0  # Start at the top
+        self.y = 0
 
 
 
@@ -80,4 +80,16 @@ class Tetrominos:
                         cell_size,
                         cell_size
                     )
-                    pygame.draw.rect(surface, self.colors[self.shape_number - 1], cell_rect)  # Red color for tetromino
+                    pygame.draw.rect(surface, self.colors[self.shape_number - 1], cell_rect)
+
+    def draw_ghost_tetromino(self, screen):
+        """Draw the tetromino on the screen."""
+        for row_idx, row in enumerate(self.shape):
+            for col_idx, cell in enumerate(row):
+                if cell:
+                    x = (self.x + col_idx) * self.cell_size + 1
+                    y = (self.y + row_idx) * self.cell_size + 1
+                    rect = pygame.Rect(x, y, self.cell_size - 2, self.cell_size - 2)
+                    pygame.draw.rect(screen, (61, 61, 61), rect)
+                    pygame.draw.rect(screen, (255, 255, 255), rect, 1)
+

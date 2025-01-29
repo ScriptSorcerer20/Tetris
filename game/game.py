@@ -21,6 +21,7 @@ class Game:
         self.game_grid = Grid(rows, cols, cell_size)
 
         self.current_tetromino = Tetrominos(cols, cell_size)
+        self.ghost_tetromino = Tetrominos(cols, cell_size)
         self.next_tetromino = Tetrominos(cols, cell_size)
         self.hold_tetromino = None
 
@@ -33,6 +34,10 @@ class Game:
     def run(self):
         """Main game loop."""
         self.playing = True
+        if settings.gamestate == False:
+            self.game_grid = Grid(rows, cols, cell_size)
+            settings.gamestate = True
+
         while self.playing:
             self.clock.tick(fps)
             self.handle_events()
@@ -84,6 +89,8 @@ class Game:
 
             self.fall_timer = current_time
 
+        self.update_ghost_tetromino()
+
     def draw(self):
         """Render the game elements."""
         self.screen.fill((138, 138, 138))
@@ -92,6 +99,8 @@ class Game:
         # Draw the grid and tetromino
         self.game_grid.draw_grid(self.grid_surface)
         self.current_tetromino.draw(self.grid_surface)
+
+        self.ghost_tetromino.draw_ghost_tetromino(self.grid_surface)
 
         # Draw next and hold previews
         self.next_surface.fill((0, 0, 0))
@@ -135,6 +144,14 @@ class Game:
                 self.current_tetromino.x = cols // 2
                 self.current_tetromino.y = 0
             self.hold_used = True
+
+    def update_ghost_tetromino(self):
+        self.ghost_tetromino.shape = self.current_tetromino.shape
+        self.ghost_tetromino.x = self.current_tetromino.x
+        self.ghost_tetromino.y = self.current_tetromino.y
+
+        while not self.game_grid.check_collision(self.ghost_tetromino.shape, self.ghost_tetromino.x, self.ghost_tetromino.y + 1):
+            self.ghost_tetromino.y += 1
 
     def show_game_over(self):
         """Handle game over screen."""
