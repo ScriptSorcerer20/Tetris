@@ -1,14 +1,7 @@
-# Variables
-
-#screen size
-global height, width
-height, width = 600, 450
+width, height = 0, 0
 
 #grid surface
 g_height, g_width = 600, 300
-
-#start surface size
-HEIGHT, WIDTH = 600, 300
 
 #score
 game_score = 0
@@ -19,5 +12,4 @@ cell_size = 30
 
 fps = 60
 
-global gamestate  # Add game state variable
 gamestate = True

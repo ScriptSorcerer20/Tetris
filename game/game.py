@@ -1,7 +1,7 @@
 import pygame as pg
 from game.settings import *
 from game.game_manager import Grid
-from game.util import draw_text, get_fall_interval
+from game.util.util import *
 from game.tetrominos import Tetrominos
 import game.settings as settings
 import sys
@@ -25,17 +25,20 @@ class Game:
         self.next_tetromino = Tetrominos(cols, cell_size)
         self.hold_tetromino = None
 
-        self.hold_used = False  # Flag to track if hold has been used for the current tetromino
+        self.hold_used = False
 
         self.fall_timer = 0
         self.move_timer = 0
         self.move_interval = 100
 
+        self.playing = None
+
     def run(self):
         """Main game loop."""
         self.playing = True
-        if settings.gamestate == False:
+        if not settings.gamestate:
             self.game_grid = Grid(rows, cols, cell_size)
+            settings.game_score = 0
             settings.gamestate = True
 
         while self.playing:
@@ -79,6 +82,8 @@ class Game:
                 if not self.game_grid.check_collision(self.current_tetromino.shape, self.current_tetromino.x - 1, self.current_tetromino.y):
                     self.current_tetromino.move(-1, 0)  # Move left
                 self.move_timer = current_time  # Reset timer
+        elif keys[pg.K_DOWN]:
+            fall_interval = 40
 
         # Handle automatic falling based on timer
         if current_time - self.fall_timer > fall_interval:
@@ -98,9 +103,8 @@ class Game:
 
         # Draw the grid and tetromino
         self.game_grid.draw_grid(self.grid_surface)
-        self.current_tetromino.draw(self.grid_surface)
-
         self.ghost_tetromino.draw_ghost_tetromino(self.grid_surface)
+        self.current_tetromino.draw(self.grid_surface)
 
         # Draw next and hold previews
         self.next_surface.fill((0, 0, 0))
@@ -111,7 +115,7 @@ class Game:
             self.hold_tetromino.draw_next_tetromino(self.hold_surface)
 
         # Draw score
-        draw_text(self.screen, f'Score: {settings.game_score}', 30, self.width - 75, 100, (255, 255, 255))
+        draw_text(self.screen, f'Score: {settings.game_score}', get_font(20), self.width - 150, 100, (255, 255, 255))
 
         # Render surfaces
         self.screen.blit(self.grid_surface, (0, 0))
@@ -155,5 +159,6 @@ class Game:
 
     def show_game_over(self):
         """Handle game over screen."""
+        add_score("gamescore.json", settings.game_score)
         settings.gamestate = False
         self.playing = False

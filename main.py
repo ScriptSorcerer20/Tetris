@@ -2,14 +2,15 @@ import pygame
 
 from game.menu import StartMenu, GameMenu
 from game.game import Game
-from game.settings import width, height
+import game.settings as setting
 
 def main():
 
     running = True
 
     pygame.init()
-    screen = pygame.display.set_mode((width, height))
+    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+    setting.width, setting.height = pygame.display.get_window_size()
     clock = pygame.time.Clock()
 
     pygame.display.set_caption("Tetris")

@@ -25,7 +25,7 @@ This isn't just about coding; it's about building something I love from the grou
 ---
 
 ### **Step 1: Speed and Difficulty Progression**
-1. [ ] **Soft Drop**: Implement gradual acceleration when the player holds the down arrow.
+1. [x] **Soft Drop**: Implement gradual acceleration when the player holds the down arrow.
 2. [x] **Hard Drop**: Allow instant dropping with the spacebar.
 3. [ ] **Leveling Up**:
    - [x] Increase the falling speed after clearing a fixed number of lines.
