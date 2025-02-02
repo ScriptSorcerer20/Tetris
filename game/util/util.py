@@ -1,23 +1,17 @@
 import pygame
 import json, os
 
-# calculate fall speed
-
 def get_fall_interval(score):
     """
     Calculate the fall interval based on the current score.
     """
-    base_interval = 1000  # Base interval in milliseconds
-    decrease_per_1000_points = 50  # Decrease in ms per 1000 points
-    min_interval = 100  # Minimum interval in milliseconds
+    base_interval = 1000
+    decrease_per_1000_points = 50
+    min_interval = 100
 
-    # Calculate the fall interval
     interval = base_interval - (score // 400) * decrease_per_1000_points
 
-    # Ensure the interval doesn't go below the minimum
     return max(interval, min_interval)
-
-# Draw text simplified
 
 def draw_text(surface, text, font, x, y, color):
     """Utility function to render text onto a surface."""
@@ -26,6 +20,7 @@ def draw_text(surface, text, font, x, y, color):
     surface.blit(text_surface, text_rect)
 
 def get_font(size):
+    pygame.font.init()
     return pygame.font.Font("assets/font.ttf", size)
 
 def get_background():
@@ -35,7 +30,7 @@ def get_background():
 
 def load_score(filename):
     """Load JSON data only if the file is not empty."""
-    if os.path.exists(filename) and os.path.getsize(filename) > 0:  # Check if file exists & not empty
+    if os.path.exists(filename) and os.path.getsize(filename) > 0:
         with open(filename, "r") as file:
             return json.load(file)
     return {}
@@ -70,10 +65,10 @@ def load_save():
 def create_save():
     new_save = {
     "controls":{
-        "0" :{"Left": pygame.K_a, "Right": pygame.K_d, "Up": pygame.K_w, "Down": pygame.K_s,
-            "Start": pygame.K_RETURN, "Action1": pygame.K_SPACE},
-        "1" :{"Left": pygame.K_a, "Right": pygame.K_d, "Up": pygame.K_w, "Down": pygame.K_s,
-            "Start": pygame.K_RETURN, "Action1": pygame.K_SPACE}
+        "0" :{"Left": pygame.K_LEFT, "Right": pygame.K_RIGHT, "Up": pygame.K_UP, "Down": pygame.K_DOWN,
+            "Hold": pygame.K_c},
+        "1" :{"Left": pygame.K_LEFT, "Right": pygame.K_RIGHT, "Up": pygame.K_UP, "Down": pygame.K_DOWN,
+            "Hold": pygame.K_c}
         },
     "current_profile": 0
     }

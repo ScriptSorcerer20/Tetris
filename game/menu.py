@@ -75,11 +75,6 @@ class StartMenu:
         self.quit.update(self.screen)
         pg.display.update()
 
-    def draw_options(self):
-        self.screen.blit(get_background(), (0, 0))
-
-        pg.display.update()
-
 
 class GameMenu:
     def __init__(self, screen, clock):
@@ -126,8 +121,11 @@ class OptionMenu:
     def __init__(self, screen, clock):
         self.menu_running = None
         self.screen = screen
+        self.custom_screen = pygame.Surface((setting.width /2, setting.height /2))
         self.clock = clock
-        self.screen_size = self.screen.get_size()
+
+        self.control_handler = setting.control_handler
+        self.actions = setting.actions
 
     def run(self):
         self.menu_running = True
@@ -145,8 +143,30 @@ class OptionMenu:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
                     self.menu_running = False
+                if event.key == self.control_handler.controls['Left']:
+                    self.actions['Left'] = True
+                if event.key == self.control_handler.controls['Right']:
+                    self.actions['Right'] = True
+                if event.key == self.control_handler.controls['Up']:
+                    self.actions['Up'] = True
+                if event.key == self.control_handler.controls['Down']:
+                    self.actions['Down'] = True
+
+            if event.type == pygame.KEYUP:
+                if event.key == self.control_handler.controls['Left']:
+                    self.actions['Left'] = False
+                if event.key == self.control_handler.controls['Right']:
+                    self.actions['Right'] = False
+                if event.key == self.control_handler.controls['Up']:
+                    self.actions['Up'] = False
+                if event.key == self.control_handler.controls['Down']:
+                    self.actions['Down'] = False
+        self.control_handler.update(self.actions)
+        setting.actions = self.actions
 
     def draw(self):
-        self.screen.blit(get_background(), (0, 0))
-
+        self.custom_screen.blit(get_background(), (0, 0))
+        self.control_handler.render(self.custom_screen)
+        self.screen.blit(pygame.transform.scale(self.custom_screen, (setting.width + 400, setting.height + 400)), (0, 0))
         pg.display.update()
+        reset_keys(self.actions)

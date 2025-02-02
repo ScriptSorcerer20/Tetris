@@ -1,5 +1,5 @@
 import pygame, sys
-from util import write_save
+from game.util.util import write_save, get_font
 
 class Controls_Handler():
     def __init__(self, save):
@@ -13,9 +13,9 @@ class Controls_Handler():
         else: self.navigate_menu(actions)
 
     def render(self, surface):
-        self.draw_text(surface, "Control Profile " + str(self.curr_block+1) , 20, pygame.Color((0,0,0)), 480 / 2, 270/8)
+        self.draw_text(surface, "Control Profile " + str(self.curr_block+1) , 20, pygame.Color((255, 255, 255)), 480 / 2, 270/8)
         self.display_controls(surface, self.save_file["controls"][str(self.curr_block)])
-        if self.curr_block == self.save_file["current_profile"]: self.draw_text(surface, "*"  , 20, pygame.Color((0,0,0)), 20, 20)
+        if self.curr_block == self.save_file["current_profile"]: self.draw_text(surface, "*"  , 20, pygame.Color((255, 255, 255)), 20, 20)
 
     def navigate_menu(self, actions):
         # Move the cursor up and down
@@ -25,8 +25,7 @@ class Controls_Handler():
         if actions["Left"]: self.curr_block = (self.curr_block -1) % len(self.save_file["controls"])
         if actions["Right"]: self.curr_block = (self.curr_block +1) % len(self.save_file["controls"])
         # Handle Selection
-        if actions["Action1"] or actions["Start"]:
-            # Set the current profile to be the main one
+        if pygame.key.get_pressed()[pygame.K_RETURN]:
             if self.cursor_dict[self.curr_index] == "Set":
                 self.controls = self.save_file["controls"][str(self.curr_block)]
                 self.save_file["current_profile"] = self.curr_block
@@ -55,18 +54,18 @@ class Controls_Handler():
                             done = True
 
     def display_controls(self,surface, controls):
-        color = (255,13,5) if self.selected else (255,250,239)
+        color = (173, 2, 2) if self.selected else (207, 190, 41)
         pygame.draw.rect(surface, color, (80 , 270/4 - 10 + (self.curr_index*30), 320, 20) )
         i = 0
         for control in controls:
             self.draw_text(surface, control + ' - ' + pygame.key.name(controls[control]),20,
-                            pygame.Color((0,0,0)), 480 / 2, 270/4 + i)
+                            pygame.Color((255,255,255)), 480 / 2, 270/4 + i)
             i += 30
-        self.draw_text(surface, "Set Current Profile",20, pygame.Color((0,0,0)), 480 / 2, 270/4 + i)
+        self.draw_text(surface, "Set Current Profile",20, pygame.Color((255, 255, 255)), 480 / 2, 270/4 + i)
 
     def setup(self):
         self.selected = False
-        self.font = pygame.font.Font("RetroFont.ttf", 20)
+        self.font = get_font(20)
         self.cursor_dict = {}
         self.curr_index = 0
         i = 0

@@ -33,6 +33,8 @@ class Game:
 
         self.playing = None
 
+        self.control_handler = settings.control_handler
+
     def run(self):
         """Main game loop."""
         self.playing = True
@@ -53,14 +55,14 @@ class Game:
             if event.type == pg.QUIT:
                 sys.exit()
             elif event.type == pg.KEYDOWN:
-                if event.key == pg.K_UP:
+                if event.key == self.control_handler.controls['Up']:
                     rotated_shape = [list(row) for row in zip(*self.current_tetromino.shape[::-1])]
                     if not self.game_grid.check_collision(rotated_shape, self.current_tetromino.x, self.current_tetromino.y):
                         self.current_tetromino.shape = rotated_shape  # Apply rotation
                 elif event.key == pg.K_SPACE:
                     self.current_tetromino.instant_drop(self.game_grid)  # Perform instant drop
                     self.lock_tetromino()
-                elif event.key == pg.K_c:
+                elif event.key == self.control_handler.controls['Hold']:
                     self.handle_hold()
                 elif event.key == pg.K_ESCAPE:  # Pause the game
                     self.playing = False
@@ -72,17 +74,17 @@ class Game:
 
         keys = pg.key.get_pressed()
 
-        if keys[pg.K_RIGHT]:
+        if keys[self.control_handler.controls['Right']]:
             if current_time - self.move_timer > self.move_interval:  # Ensure delay between movements
                 if not self.game_grid.check_collision(self.current_tetromino.shape, self.current_tetromino.x + 1, self.current_tetromino.y):
                     self.current_tetromino.move(1, 0)  # Move right
                 self.move_timer = current_time  # Reset timer
-        elif keys[pg.K_LEFT]:
+        elif keys[self.control_handler.controls['Left']]:
             if current_time - self.move_timer > self.move_interval:  # Ensure delay between movements
                 if not self.game_grid.check_collision(self.current_tetromino.shape, self.current_tetromino.x - 1, self.current_tetromino.y):
                     self.current_tetromino.move(-1, 0)  # Move left
                 self.move_timer = current_time  # Reset timer
-        elif keys[pg.K_DOWN]:
+        elif keys[self.control_handler.controls['Down']]:
             fall_interval = 40
 
         # Handle automatic falling based on timer
