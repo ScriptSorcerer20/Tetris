@@ -37,8 +37,20 @@ def load_score(filename):
 
 def add_score(filename, score):
     if os.path.exists(filename):
-        with open(os.path.join(os.getcwd(), filename), "w") as file:
-            json.dump(score, file)
+        with open(filename, "r") as file:
+            data = json.load(file)
+
+        # If the stored data doesn't have a "score" key for some reason, ensure it does.
+    if "score" not in data:
+        data["score"] = []
+
+        # Append the new score.
+        # You can also handle multiple scores by extending the list, e.g. `data["score"].extend(new_score)`.
+    data["score"].append(score)
+
+    # Write the updated data back to the file.
+    with open(filename, "w") as file:
+        json.dump(data, file, indent=2)
 
 # For keybinds (control.py)
 

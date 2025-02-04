@@ -70,6 +70,8 @@ class StartMenu:
             draw_text(self.screen, f"Score: {item}", get_font(30), setting.width // 5, setting.height // 3 - 50 + position, (255, 255, 255))
             position += 50
 
+        self.score = load_score("gamescore.json")
+
         self.play.update(self.screen)
         self.options.update(self.screen)
         self.quit.update(self.screen)

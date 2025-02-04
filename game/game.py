@@ -120,7 +120,7 @@ class Game:
         draw_text(self.screen, f'Score: {settings.game_score}', get_font(20), self.width - 150, 100, (255, 255, 255))
 
         # Render surfaces
-        self.screen.blit(self.grid_surface, (0, 0))
+        self.screen.blit(self.grid_surface, (settings.width // 2 - 150, 50))
         self.screen.blit(self.next_surface, (self.width - 150, 200))
         self.screen.blit(self.hold_surface, (self.width - 150, 400))
 

@@ -51,8 +51,8 @@ This isn't just about coding; it's about building something I love from the grou
 1. [ ] **Themes and Visual Effects**:
    - [ ] Add background or block skins for variety.
    - [ ] Implement line clear animations.
-2. [ ] **Customizable Controls**:
-   - [ ] Allow players to remap movement, rotation, and drop keys.
+2. [x] **Customizable Controls**:
+   - [x] Allow players to remap movement, rotation, and drop keys.
 3. [ ] **Detailed Stats**:
    - [ ] Track and display total lines cleared, playtime, and other statistics.
 
