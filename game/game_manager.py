@@ -10,6 +10,8 @@ class Grid():
         self.color = set_color()
         self.grid = [[0 for j in range(self.cols)] for k in range(self.rows)]
 
+        self.cleared_rows = []
+
     def draw_grid(self, surface):
         for row in range(self.rows):
             for col in range(self.cols):
@@ -66,10 +68,48 @@ class Grid():
                         return True
 
     def check_full_row(self):
-        """Check for and clear any full rows."""
-        new_grid = [row for row in self.grid if not all(cell != 0 for cell in row)]
-        cleared_rows = len(self.grid) - len(new_grid)
-        self.grid = [[0] * self.cols for _ in range(cleared_rows)] + new_grid
+        """Check for and store full rows for animation before clearing them."""
+        self.cleared_rows = [i for i, row in enumerate(self.grid) if all(cell != 0 for cell in row)]
+
+        if self.cleared_rows:
+            self.clearing_animation_timer = pygame.time.get_ticks()  # Start animation timer
+
+    def animate_line_clear(self, screen):
+        """Handles the visual effect when clearing rows."""
+        if not self.cleared_rows:
+            return
+
+        elapsed_time = pygame.time.get_ticks() - self.clearing_animation_timer
+
+        if elapsed_time < 500:  # Animation lasts 500ms
+            fade_alpha = int(255 * (1 - elapsed_time / 500))  # Fading effect
+            if elapsed_time > 400:
+                fade_color = (0, 0, 0, fade_alpha)  # White fading color
+            elif elapsed_time > 300:
+                fade_color = (100, 100, 100, fade_alpha)
+            elif elapsed_time > 200:
+                fade_color = (150, 150, 150, fade_alpha)
+            elif elapsed_time > 100:
+                fade_color = (200, 200, 200, fade_alpha)
+            else:
+                fade_color = (255, 255, 255, fade_alpha)
+
+            for row in self.cleared_rows:
+                for col in range(self.cols):
+                    rect = pygame.Rect(col * self.cell_size + settings.width // 2 -150, row * self.cell_size +50, self.cell_size, self.cell_size)
+                    pygame.draw.rect(screen, fade_color[:3], rect)
+                    pygame.draw.rect(screen, (0, 0, 0), rect, 1)
+        else:
+            self.clear_rows()  # Remove rows after animation is complete
+
+    def clear_rows(self):
+        """Removes full rows after the animation finishes."""
+        new_grid = [row for i, row in enumerate(self.grid) if i not in self.cleared_rows]
+        cleared_count = len(self.cleared_rows)
+
+        # Add empty rows at the top
+        self.grid = [[0] * self.cols for _ in range(cleared_count)] + new_grid
 
         score_table = {1: 100, 2: 300, 3: 500, 4: 800}
-        settings.game_score += score_table.get(cleared_rows, 0)
+        settings.game_score += score_table.get(len(self.cleared_rows), 0)
+        self.cleared_rows = []  # Reset after clearing

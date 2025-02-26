@@ -42,7 +42,7 @@ This isn't just about coding; it's about building something I love from the grou
 3. [x] **Pause and Resume**:
    - [x] Allow the game to pause (e.g., with the Escape key) and resume.
 4. [ ] **Basic Leaderboard**:
-   - [ ] Track high scores locally.
+   - [X] Track high scores locally.
    - [ ] Display the leaderboard after a game ends.
 
 ---

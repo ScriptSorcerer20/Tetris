@@ -35,20 +35,30 @@ def load_score(filename):
             return json.load(file)
     return {}
 
-def add_score(filename, score):
-    if os.path.exists(filename):
-        with open(filename, "r") as file:
-            data = json.load(file)
 
-        # If the stored data doesn't have a "score" key for some reason, ensure it does.
-    if "score" not in data:
+def add_score(filename, score):
+    """Adds a new score only if it's in the top 5. Sorts scores in descending order."""
+
+    # Load existing data or create a new leaderboard
+    if os.path.exists(filename) and os.path.getsize(filename) > 0:
+        with open(filename, "r") as file:
+            try:
+                data = json.load(file)
+            except json.JSONDecodeError:
+                data = {"score": []}  # Reset if JSON is corrupted
+    else:
+        data = {"score": []}
+
+    # Ensure "score" is a list
+    if "score" not in data or not isinstance(data["score"], list):
         data["score"] = []
 
-        # Append the new score.
-        # You can also handle multiple scores by extending the list, e.g. `data["score"].extend(new_score)`.
-    data["score"].append(score)
+    # Only add the score if there are less than 5 scores or it's higher than the lowest
+    if len(data["score"]) < 5 or score > min(data["score"]):
+        data["score"].append(score)  # Add new score
+        data["score"] = sorted(data["score"], reverse=True)[:5]  # Sort & keep top 5
 
-    # Write the updated data back to the file.
+    # Save the updated leaderboard
     with open(filename, "w") as file:
         json.dump(data, file, indent=2)
 

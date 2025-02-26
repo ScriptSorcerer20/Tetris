@@ -52,7 +52,7 @@ class StartMenu:
                     sys.exit()
 
     def draw(self):
-        self.screen.blit(get_background(), (0, 0))
+        self.screen.blit(get_background())
 
         self.play = Button(image=None, pos=(setting.width // 2, setting.height // 3), text_input="Play", font=get_font(50), base_color=(255, 255, 255), hovering_color=(200, 200, 200))
         self.play.changeColor(self.mouse_pos)
@@ -66,9 +66,11 @@ class StartMenu:
         draw_text(self.screen, "TETRIS", get_font(30), setting.width // 2, setting.height // 3 - 50, (255, 255, 255))
 
         position = 0
+        count = 1
         for item in self.score["score"]:
-            draw_text(self.screen, f"Score: {item}", get_font(30), setting.width // 5, setting.height // 3 - 50 + position, (255, 255, 255))
+            draw_text(self.screen, f"{count}: {item}", get_font(30), setting.width // 5, setting.height // 3 - 50 + position, (255, 255, 255))
             position += 50
+            count += 1
 
         self.score = load_score("gamescore.json")
 

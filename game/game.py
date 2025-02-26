@@ -69,6 +69,9 @@ class Game:
 
     def update(self):
         """Update the game state."""
+        if self.game_grid.cleared_rows:  # If an animation is running, wait before dropping pieces
+            return  # Skip movement updates
+
         current_time = pg.time.get_ticks()
         fall_interval = get_fall_interval(settings.game_score)
 
@@ -117,10 +120,13 @@ class Game:
             self.hold_tetromino.draw_next_tetromino(self.hold_surface)
 
         # Draw score
-        draw_text(self.screen, f'Score: {settings.game_score}', get_font(20), self.width - 150, 100, (255, 255, 255))
+        draw_text(self.screen, f'score: {settings.game_score}', get_font(20), self.width - 150, 100, (255, 255, 255))
 
         # Render surfaces
         self.screen.blit(self.grid_surface, (settings.width // 2 - 150, 50))
+
+        self.game_grid.animate_line_clear(self.screen)
+
         self.screen.blit(self.next_surface, (self.width - 150, 200))
         self.screen.blit(self.hold_surface, (self.width - 150, 400))
 
